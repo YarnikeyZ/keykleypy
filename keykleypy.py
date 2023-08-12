@@ -3,6 +3,7 @@ from os.path import abspath as wd
 import keyboard
 from pixpile import *
 import asyncio
+import platfom
 
 async def drawButton(keyName='', posX=0, posY=0, style={}, spanXForced=1):
     spanX = int(style['spanX'])
@@ -20,8 +21,13 @@ async def drawButton(keyName='', posX=0, posY=0, style={}, spanXForced=1):
     print(f"{moveCursor(3+posX+(spanX*posX), 3+posY+(spanY*posY))}{colorIt(keyName, colorText, colorFg)}")
 
 async def main():
+    # Config reading
+    pathSymbol = '/' if platform.system() == "Linux" else '\\'
+    fullPath = __file__
+    lastPathSymbol = fullPath.rfind(pathSymbol)
+
     config = configparser.ConfigParser()
-    config.read(f'{wd("")}/kleypy_config.ini')
+    config.read(f'{fullPath[:lastPathSymbol-len(fullPath)+1]}config.ini')
     style = config['style']
     print(CLR, end='')
     while True:
